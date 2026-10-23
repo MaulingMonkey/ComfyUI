@@ -1,3 +1,34 @@
+<h1 style="color: red; text-align: center;">Modified</h1>
+
+This branch has been modified in a manner inappropriate for upstreaming:
+-   Specified an *exact* python version in `pyproject.toml`
+-   Removed `uv.lock` from `.gitignore`
+-   Updated `pyproject.toml` and generated `uv.lock`.
+
+Update and generation were created with:
+```sh
+uv add                                                      \
+    --index "https://stable.repo.amd.com/rocm/whl-next/"    \
+    --index "https://pypi.org/simple"                       \
+    "torch[device-gfx1102]==2.13.0+rocm10.0.0"              \
+    "torchvision[device-gfx1102]==0.28.0+rocm10.0.0"        \
+    "torchaudio==2.11.0.2+rocm10.0.0"                       \
+    -r requirements.tt
+```
+This uses AMD's ROCm 10 branch of pytorch?
+(I *think* that's what's going on when I specify the `--index ...` and `+rocm10.0.0`?
+Various instructions suggest ROCm 7.2, but I'll live on the edge instead...)
+The selection of `device-gfx1102` especially is specific to my Steam Machine (or machines with similar GPUs.)
+
+To auto-install python, fetch and build dependencies, and then run ComfyUI, consider a command such as:
+```sh
+uv sync                       # don't run, just sync+build everything
+uv run main.py                # run syncronously
+uv run main.py --background   # run in the background (will die when distrobox tty does!)
+```
+
+
+
 <div align="center">
 
 # ComfyUI
